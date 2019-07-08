@@ -15,12 +15,13 @@ import '../node_modules/materialize-css/dist/js/materialize.min.js';
 
 
 export default {
-  name: 'app',
-  components: {
-    Navbar
-  }
+	name: 'app',
+	components: {
+		Navbar
+	}
 };
 </script>
 
 <style>
+
 </style>
