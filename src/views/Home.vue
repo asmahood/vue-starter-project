@@ -1,32 +1,45 @@
 <template>
-	<div class="row">
-		<div class="col s6" v-for="(post, index) in posts"
-			v-bind:item="post"
-			:index="index"
-			:key="post.id"
-		>
-			<div class="card">
-				<div class="card-content">
-					<p class="card-title">{{ post.title }}</p>
-					<p class="timestamp">{{ post.createdAt }}</p>
-					<p>{{ post.body }}</p>
+	<div>
+		<div class="row">
+			<div class="col s6">
+				<!-- Form -->
+				<PostForm @postCreated="addPost"/>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s6" v-for="(post, index) in posts"
+				v-bind:item="post"
+				:index="index"
+				:key="post.id"
+			>
+				<div class="card">
+					<div class="card-content">
+						<p class="card-title">{{ post.title }}</p>
+						<p class="timestamp">{{ post.createdAt }}</p>
+						<p>{{ post.body }}</p>
+					</div>
+					<div class="card-action">
+						<a href="#" @click="editPost(post)">Edit</a>
+						<a href="#" @click="deletePost(post.id)" class="delete-btn">Delete</a>
+					</div>	
 				</div>
-				<div class="card-action">
-					<a href="#">Edit</a>
-					<a href="#" class="delete-btn">Delete</a>
-				</div>	
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+import PostForm from '../components/PostForm.vue'
+
 import PostService from '../PostService';
 
 const ps = new PostService();
 
 export default {
 	name: "Home",
+	components: {
+		PostForm
+	},
 	data() {
 		return {
 			posts: []
@@ -38,6 +51,21 @@ export default {
 				this.posts = res.data;
 			})
 			.catch(error => console.log(error));
+	},
+	methods: {
+		addPost(post) {
+			this.posts.unshift(post);
+		},
+
+		editPost(post) {
+
+		},
+
+		deletePost(id) {
+			ps.deletePost(id).then(() => {
+				console.log('post deleted');
+			}).catch((error) => console.log(error));
+		}
 	}
 };
 
