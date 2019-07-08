@@ -16,7 +16,7 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'comma-dangle': ['error', 'never'],
-    'brace-style': '1tbs',
+    'brace-style': [2, '1tbs'],
     'indent': ['error', 'tab', { SwitchCase: 1 }]
   },
 }
