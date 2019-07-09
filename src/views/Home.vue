@@ -65,7 +65,7 @@ export default {
 			.then((res) => {
 				this.posts = res.data;
 			})
-			.catch(error => console.log(error));
+			.catch(err => console.error(err));
 	},
 	filters: {
 		/**
@@ -75,6 +75,7 @@ export default {
 		 */
 		formatDate(date) {
 			date = new Date(date);
+
 			const day = date.getDate();
 			const month = date.getMonth() + 1;
 			const year = date.getFullYear();
@@ -88,9 +89,9 @@ export default {
 		 * @param {Post} post The new post being added
 		 */
 		addPost(post) {
-			if (this.posts.find(p => p.id === post.id)) {
-				const index = this.posts.findIndex(p => p.id === post.id);
+			const index = this.posts.findIndex(p => p.id === post.id);
 
+			if (index !== -1) {
 				this.posts.splice(index, 1, post);
 			} else {
 				this.posts.unshift(post);
@@ -108,16 +109,20 @@ export default {
 		 * @param {Number} id The id of the post to be deleted
 		 */
 		deletePost(id) {
-			ps.deletePost(id).then(() => {
-				this.posts = this.posts.filter(p => p.id !== id);
-			}).catch((error) => console.log(error));
+			ps.deletePost(id)
+				.then(() => {
+					this.posts = this.posts.filter(p => p.id !== id);
+				})
+				.catch(err => console.error(err));
 		},
 		/**
 		 * Sets the number of posts to be displayed on the homepage
 		 */
 		setLimit() {
 			ps.getPosts(this.postLimit)
-				.then(res => this.posts = res.data)
+				.then((res) => {
+					this.posts = res.data
+				})
 				.catch(err => console.error(err));
 		}
 	}

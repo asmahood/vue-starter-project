@@ -67,7 +67,7 @@ export default {
 
 					this.$emit('postCreated', res.data);
 				})
-				.catch(error => console.log(error));
+				.catch(err => console.error(err));
 		},
 		/**
 		 * Determines if the form is valid or not
@@ -76,10 +76,13 @@ export default {
 		validForm() {
 			this.errors = {};
 
+			// empty title field
 			if (this.title.trim() === '') this.errors.title = 'title';
 
+			// empty body field
 			if (this.body.trim() === '') this.errors.body = 'body';
 
+			// if there are keys then errors exist, not a valid form
 			if (Object.keys(this.errors).length > 0) return false;
 
 			return true;
