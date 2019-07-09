@@ -11,7 +11,9 @@
 				<input type="text" name="body" v-model="body" :class="[errors.body ? 'invalid' : 'validate']">
 				<span class="helper-text" data-error="Body must not be empty."></span>    
 			</div>
-			<button type="submit" class="waves-effect waves-light btn">Add</button>
+			<button type="submit" class="waves-effect waves-light btn">
+				{{ id ? 'Update' : 'Add' }}
+			</button>
 		</form>
 		<div class="progress" v-else-if="loading">
 			<div class="indeterminate"></div>
@@ -25,12 +27,16 @@ import PostService from '../PostService';
 const ps = new PostService();
 
 export default {
-	name: "PostForm",
+	name: 'PostForm',
+	props: {
+		editingPost: Object
+	},
 	data() {
 		return {
 			loading: false,
 			title: '',
 			body: '',
+			id: null,
 			errors: {}
 		}
 	},
@@ -45,7 +51,8 @@ export default {
 
 			const post = {
 				title: this.title,
-				body: this.body
+				body: this.body,
+				id: this.id
 			};
 
 			ps.writePost(post)
@@ -70,6 +77,14 @@ export default {
 			if (Object.keys(this.errors).length > 0) return false;
 
 			return true;
+		}
+	},
+	watch: {
+		editingPost(post) {
+			this.title = post.title;
+			this.body = post.body;
+			this.id = post.id;
+
 		}
 	}
 }
