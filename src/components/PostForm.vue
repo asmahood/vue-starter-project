@@ -41,6 +41,9 @@ export default {
 		}
 	},
 	methods: {
+		/**
+		 * Event handler for the onSubmit event
+		 */
 		onSubmit() {
 			this.loading = true;
 
@@ -66,7 +69,10 @@ export default {
 				})
 				.catch(error => console.log(error));
 		},
-        
+		/**
+		 * Determines if the form is valid or not
+		 * @returns {Boolean} Returns true if the form is valid, false otherwise
+		 */
 		validForm() {
 			this.errors = {};
 
@@ -84,7 +90,6 @@ export default {
 			this.title = post.title;
 			this.body = post.body;
 			this.id = post.id;
-
 		}
 	}
 }
@@ -94,11 +99,11 @@ export default {
 <style scoped>
 
 .form {
-    margin: 3rem;
+  margin: 3rem;
 }
 
 .progress {
-    margin: 6rem 0;
+  margin: 6rem 0;
 }
 
 </style>

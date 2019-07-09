@@ -38,6 +38,14 @@ import PostForm from '../components/PostForm.vue'
 
 import PostService from '../PostService';
 
+/**
+ * A Post object
+ * @typedef {Object} Post
+ * @property {String} title The title of the post
+ * @property {String} body The body of the post
+ * @property {Number} id The ID of the post
+ */
+
 const ps = new PostService();
 
 export default {
@@ -60,6 +68,11 @@ export default {
 			.catch(error => console.log(error));
 	},
 	filters: {
+		/**
+		 * Transforms a timestamp string into a human readable date
+		 * @param {String} date The date a post was created
+		 * @returns {string}
+		 */
 		formatDate(date) {
 			date = new Date(date);
 			const day = date.getDate();
@@ -70,6 +83,10 @@ export default {
 		}
 	},
 	methods: {
+		/**
+		 * Adds a new post to the home page
+		 * @param {Post} post The new post being added
+		 */
 		addPost(post) {
 			if (this.posts.find(p => p.id === post.id)) {
 				const index = this.posts.findIndex(p => p.id === post.id);
@@ -79,17 +96,25 @@ export default {
 				this.posts.unshift(post);
 			}
 		},
-
+		/**
+		 * Edits an existing post from the home page
+		 * @param {Post} post The post that is being edited
+		 */
 		editPost(post) {
 			this.editingPost = post;
 		},
-
+		/**
+		 * Deletes an existing post from the home page
+		 * @param {Number} id The id of the post to be deleted
+		 */
 		deletePost(id) {
 			ps.deletePost(id).then(() => {
 				this.posts = this.posts.filter(p => p.id !== id);
 			}).catch((error) => console.log(error));
 		},
-
+		/**
+		 * Sets the number of posts to be displayed on the homepage
+		 */
 		setLimit() {
 			ps.getPosts(this.postLimit)
 				.then(res => this.posts = res.data)
